@@ -36,4 +36,25 @@ note:
 
 
 
-### Security issue
+## Security issue
+- Authentication and Authorization
+- Greater Surface Attack Area
+- Network Complexity
+- Heterogeneity
+- Trust
+
+
+
+### Authentication and Authorization
+![img](img/monolithic_request_flow.png)
+Each micro-services have to ensure that the request is made by an authenticated client with the corrent rigths.
+
+to avoid repeted work the it can be used SSO Gatway that is the only one that communicate with the identity service.
+
+After the sigb'in it trasmit to the other services a token authorize the client.
+
+
+#### Thecnologie
+- OpenID
+- SAML
+- JWT
