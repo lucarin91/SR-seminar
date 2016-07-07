@@ -36,11 +36,18 @@ note:
 
 
 
+## Real-World Examples
+![netflix](img/netflix.jpg)<!-- .element: style="float" -->
+![hailo](img/hailo.png)
+
+
+
 ## Security issue
 - Authentication and Authorization
 - Greater Surface Attack Area
-- Network Complexity
 - Heterogeneity
+- Network Complexity
+- Man-in-the-middle
 - Trust
 
 
@@ -51,10 +58,33 @@ Each micro-services have to ensure that the request is made by an authenticated 
 
 to avoid repeted work the it can be used SSO Gatway that is the only one that communicate with the identity service.
 
-After the sigb'in it trasmit to the other services a token authorize the client.
+After the sig-in it transmit to the other services a token authorize the client.
 
 
 #### Thecnologie
 - OpenID
 - SAML
 - JWT
+
+
+
+### Greater Surface Attack Area
+in monolitic application all the component talk by internal data structure of the used language.
+
+in the microservices infrastructure all serices expose common API independed from the programming language
+
+(the services can in principle can be accessed by the external and in every order)
+
+
+
+### Heterogeneity
+The application can be made by a very large number of services that can also not be know in advance.
+No common security infrastructure, different Trusted Computing Base
+
+
+
+### Network Complexity
+Such an intrinsic complexity
+determines an ever-increasing difficulty in debugging, monitoring, auditing, and forensic
+analysis of the entire application. Attackers could exploit this complexity to launch attacks
+against applications.
