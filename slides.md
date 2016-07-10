@@ -1,5 +1,5 @@
-# SR - Seminar
-#### Security in the MicroServices Architecture
+## Security in the Micro-Services Architecture
+#### SR - Seminar
 
 <small>Created by <a href="http://www.github.com/lucarin91">Luca Rinaldi</a></small>
 
@@ -64,6 +64,7 @@ to avoid repeted work the it can be used SSO Gatway that is the only one that co
 
 After the sig-in it transmit to the other services a token authorize the client.
 
+see: https://speakerdeck.com/dsyer/security-for-microservices-with-spring
 
 #### Thecnologie
 - OpenID
@@ -223,4 +224,34 @@ the following steps according to the FlowTap API:
 
 
 ### Evalutation
-![setup](/img/setup.png)
+![setup](img/setup.png)
+<small>
+
+| Scenario | (a) | (b) | (c) | (d) |
+|:---------|:---:|:---:|:---:|:---:|
+| Baseline (mbps) | 2600 | 2600 | 12000 | 12000 |
+| FlowTap (mbps)  | 2100 | 2600 | 5100  | 9100  |
+| Throughput loss | 19%  | 0%   | 57%   | 24%   |
+
+</small>
+
+
+
+### Netflix Fido
+Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns.
+
+They, however, have two drawbacks:
+- the analysis often uses hooks within the VM or the application to monitor the APIs and other application behaviors. If an adversary successfully compromises a microservice and escalates the privileges to control the VM that hosts the service, it can easily subvert the security of this framework.
+- this approach usually lacks the visibility into the underlying infrastructure, thus may lack capability to respond to the conditions (e.g. they cannot redirect traffic by themselves and need some infrastructure support).
+
+note:
+Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns. They, however, have two drawbacks. First, the analysis often uses hooks within the VM or the application to monitor the APIs and other application behaviors. If an adversary successfully compromises a microservice and escalates the privileges to control the VM that hosts the service, it can easily subvert the security of this framework. Second, this approach usually lacks the visibility into the underlying infrastructure, thus may lack capability to respond to the conditions (e.g. they cannot redirect traffic by themselves and need some infrastructure support).
+
+
+
+### Conclusion
+òdslfksldkf
+
+
+
+## Thanks
