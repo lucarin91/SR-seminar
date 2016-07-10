@@ -1,14 +1,35 @@
 ## Security in the Micro-Services Architecture
 #### SR - Seminar
 
-<small>Created by <a href="http://www.github.com/lucarin91">Luca Rinaldi</a></small>
+<small>Created by <a href="http://lucar.in">Luca Rinaldi</a></small>
 
 
 
-## Microservices Architecture
-Is an Architecture based of separeted services that implement a small part of the application.
+## Agenda
+- introduce microservice and its characteristics
+- explain the main security problem
+- present a Security-as-a-Service approach for microservice
+- conclusion
 
-They have to be autonomus (they can be deployed as a single machine, virtual machine, container or a process)
+
+
+## Same Definition
+A **Monolithic software application** is a software application
+composed of modules that are not independent from the application to which they belong.
+
+A **Microservice** is a minimal independent process interacting via messages.
+
+A **Microservice Architecture** is a distributed application where all its modules are microservices.
+
+
+
+
+## Microservice Architecture
+The communication  is made by RESTful API or message broker services.
+
+Each microservices is completely autonomous and domain specific.
+
+The microservices can be deployed as a single machine, virtual machine, container or a process.
 
 
 ### Advantages
@@ -19,10 +40,10 @@ They have to be autonomus (they can be deployed as a single machine, virtual mac
 - Ease of Deployment
 
 
-### Introuced problems ( Disadvantages )
+### Introduced problems ( Disadvantages )
 - Increased Resource use
 - Increase Network communication
-- Marshalling and Un marshalling
+- Marshalling and Un-marshalling
 - Network Security
 
 note:
@@ -30,7 +51,7 @@ note:
 
 - **Increase Network communication** - Independently running components interact with each other over a network. Such systems require reliable and fast network connections.
 
-- **Marshalling and Un marshalling** - When one component needs data from another component, the sender marshals the data in some standard from its internal representation, while the receiver un-marshalls data into its own representation before use. This definitely requires more processing compared to conventional application architecture.
+- **Marshalling and Un-marshalling** - When one component needs data from another component, the sender marshals the data in some standard from its internal representation, while the receiver un-marshalls data into its own representation before use. This definitely requires more processing compared to conventional application architecture.
 
 - **Network Security** - Inter Service Communication needs to be secured to avoid any inter communication security breach. Due to several moving parts, these applications are more prone to security vulnerabilities.
 
@@ -46,74 +67,83 @@ note:
 - Greater Surface Attack Area
 - Heterogeneity
 - Network Complexity
-- Secure the comunications
+- Secure the communications
 - Trust
 
 
 
-### Trust
-we have in same way decide a compromise, at same point we have to trust and release part of the security to avoid to mutch overread.
-
-
-
 ### Authentication and Authorization
-![img](img/monolithic_request_flow.png)
-Each micro-services have to ensure that the request is made by an authenticated client with the corrent rigths.
+![monolithic_flow](img/monolithic_request_flow.png) ![img](img/microservices_incorrect_flow.png)
 
-to avoid repeted work the it can be used SSO Gatway that is the only one that communicate with the identity service.
+Each micro-services have to ensure that the request is made by an authenticated client with the correct rights.
 
-After the sig-in it transmit to the other services a token authorize the client.
+To avoid repeated work the it can be used SSO Gateway that is the only one that communicate with the identity service.
 
+note:
 see: https://speakerdeck.com/dsyer/security-for-microservices-with-spring
 
-#### Thecnologie
-- OpenID
-- SAML
-- JWT
+
+### More in detail
+There is not an actual standard, but the main idea is to use a token system
+
+The most used technologies are:
+- JWT, a token system
+- OpenID, decentralized authentication protocol
+- OAuth, a delegation protocol
 
 
 
 ### Greater Surface Attack Area
-in monolitic application all the component talk by internal data structure of the used language.
+In the microservice infrastructure all services expose independent API from the programming language.
 
-in the microservices infrastructure all serices expose common API independed from the programming language
-
-(the services can in principle can be accessed by the external and in every order)
+This services can in principle be access by the external
 
 
 
 ### Heterogeneity
 The application can be made by a very large number of services that can also not be know in advance.
+
 No common security infrastructure, different Trusted Computing Base
 
 
 
 ### Network Complexity
-Such an intrinsic complexity
-determines an ever-increasing difficulty in debugging, monitoring, auditing, and forensic
-analysis of the entire application. Attackers could exploit this complexity to launch attacks
-against applications.
+The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
+
+Attackers could exploit this complexity to launch attacks against applications.
 
 
 
-### Secure the comunications
-Are needed way to ensure that the comunication beteewn the services are secure.
-Adopted tecnics:
+### Secure the communications
+Are needed way to ensure that the communication between the services are secure.
+
+Adopted technology:
 - HTTPS
 - Client Certificates
 - HMAC Over HTTP
 
 
 
-### Correct message flow
-We have ensure trust between the services.
-Also if we encrypt all the comunication and use certification to authenticate the service, that can be the possibility hat a compromised service act in a non consentit way an we encome in the..
+### Trust
+We can't consider a microservice trustworthy.
 
+![tyro](img/tyro.png) <!-- .element: style="max-width: 500px;" -->
+
+Encrypt and certificate the communication is not enough, because a compromised service cant act against us.
 
 
 ### Confused deputy problem
-the situation where a malicious party can trick a deputy service into making calls to a downstream service on his behalf
+The situation where a malicious party can trick a deputy service into making calls to a downstream service on his behalf
 that he shouldn’t be able to.
+
+
+### Netflix vulnerability
+As a real world example, a subdomain of Netflix was compromised, and from that domain, adversary can serve any content in the context of netflix.com. In addition, since Netflix allowed all users’ cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
+
+
+
+## Security-as-a-Service
+In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyses microservice requests to ensure same communication policy.
 
 
 
@@ -131,46 +161,41 @@ a compromised `Contract-Update` may send modified requests to `User-Update` to c
 
 
 
-### Netflix vulnerability
-As a real world example, a subdomain of Netflix was compromised, and from that domain, adversary can serve any content in the context of netflix.com. In addition, since Netflix allowed all users’ cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
-
-
-
 ### Monitor the network
-In "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution that have to be
+The solution have to have this characteristics:
 - Completeness
 - Tamper
 - Flexibility
 - Efficiency
 
 note:
-- Completeness: the solution should be able to monitorand enforce over both internal and external networ events of a cloud application.
-- Tamper resistance: the solution should work even if in-dividual application VMs are under adversary’s control.
-- Flexibility: the solution should allow applications tospecify their own policies over the kind of networkevents they want to monitor and enforce policies on.
-- Efficiency: the solution should have minimal impact onnetwork and CPU resources consumed.
+- Completeness: the solution should be able to monitor and enforce over both internal and external network events of a cloud application.
+- Tamper resistance: the solution should work even if individual application VMs are under adversary’s control.
+- Flexibility: the solution should allow applications to specify their own policies over the kind of network events they want to monitor and enforce policies on.
+- Efficiency: the solution should have minimal impact on network and CPU resources consumed.
 
 
 
 ### Design
-Put the monitoring part outside the bussness logic.
-Create security VM that can analyse and monitoring the flow coming from the application VM.
+Put the monitoring part outside the business logic.
+Create security VM that can analyses and monitoring the flow coming from the application VM.
 
 All the network event of the services can be redirect by the SDN of the cloud infrastructure.
 
 note:
-this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervaisor.
+this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
 
 
 
 ### FlowTap Primitive
-To avoid scustom network configuration is possible to define a new primitive:
+To avoid custom network configuration is possible to define a new primitive:
 ```
 FlowTap (SRC, DST, Flow_Syntax, Action)
 ```
 
 - **SRC**, the port of the source VM
 - **DST**, the port of the destination VM
-- **Flow_Syntax**, identifie a specific flow to tap  
+- **Flow_Syntax**, identifies a specific flow to tap  
 - **Action**, forwarding or redirect
 
 Flow_Syntax Example ( Monitor incoming HTTP requests ):
@@ -178,8 +203,12 @@ Flow_Syntax Example ( Monitor incoming HTTP requests ):
 nw_src = 0.0.0.0/0; nw_proto = TCP; tp_dst = 80 , redirect)
 ```
 
-<!-- Flow_Syntax:
-```java
+note:
+- **forwarding**: relevant network events will be copied and forwarded to the security VM, with the original network events still delivered to their intended destination.
+- **redirecting**: the relevant network events will be directed to the security VM, and depending the decisions made by security monitor, the network events may or may not reach the their intended destination.
+
+Flow_Syntax:
+```
 in_port, dl_vlan, dl_vlan_pcp, dl_src, dl_dst, dl_type, nw_src,
 nw_dst, nw_proto, nw_tos, nw_ecn, nw_ttl, tp_src, tp_dst,
 icmp_type, icmp_code, table, metadata, vlan_tci, ip_frag,
@@ -187,28 +216,20 @@ arp_sha, arp_tha, ipv6_src, ipv6_dst, ipv6_label, nd_target,
 nd_sll, nd_tll, tun_id, tun_src, tun_dst, reg
 ```
 
-Action:
-```python
-forwording, redirection
-``` -->
-
-note:
-- **forwarding**: relevant network events will be copied and forwarded to the security VM, with the original network events still delivered to their intended destination.
-- **redirecting**: the relevant network events will be directed to the security VM, and depending the decisions made by security monitor, the network events may or may not reach the their intended destination.
-
-
 
 ### ftc compiler
-A tool to traslate the policy written in Dalog to a set of FlowTap call.
+A tool to translate the policy written in Dalog to a set of FlowTap call.
 
 It can also dynamically compile the same policy into different set of FlowTap calls that maximize the efficiency of the system, base on CPU usage and network load.
 
+note:
+Datalog is a declarative logic programming language that syntactically is a subset of Prolog. It is often used as a query language for deductive databases. In recent years, Datalog has found new application in data integration, information extraction, networking, program analysis, security, and cloud computing.
 
 
 ### Implementation
 FlowTap is implemented on OpenStack Icehouse release.
 
-By modifing the virtual routing devices on cloud nodes:
+By modifying the virtual routing devices on cloud nodes:
 - the integration bridge (`br-int`) that connects to VMs
 - the tunneling bridge (`br-tun`) that tunnels the VM traffic across cloud nodes.
 
@@ -227,8 +248,8 @@ the following steps according to the FlowTap API:
 ![setup](img/setup.png)
 <small>
 
-| Scenario | (a) | (b) | (c) | (d) |
-|:---------|:---:|:---:|:---:|:---:|
+| Scenario        |  (a) |  (b) |  (c)  |  (d)  |
+|:----------------|:----:|:----:|:-----:|:-----:|
 | Baseline (mbps) | 2600 | 2600 | 12000 | 12000 |
 | FlowTap (mbps)  | 2100 | 2600 | 5100  | 9100  |
 | Throughput loss | 19%  | 0%   | 57%   | 24%   |
@@ -250,8 +271,22 @@ Application-based security approaches, such as in Netflix Fido analyze API-level
 
 
 ### Conclusion
-òdslfksldkf
+The microservice architecture is a style that is increasingly gaining popularity both in academia and in the industrial world.
+
+Its not a totally new approach but actually a improvement of really know infrastructure as OO or SOA.
+
+It is needed, also in the security field, standardization and research to resolve the new problem that raise from this use.
 
 
 
-## Thanks
+## References
+<div style="font-size: 24px;">
+- Newman, S., 2015. **Building Microservices.** "O'Reilly Media, Inc."
+
+- Sun, Y., Nanda, S. and Jaeger, T., 2015, November. **Security-as-a-Service for Microservices-Based Cloud Applications.** In 2015 IEEE 7th International Conference on Cloud Computing Technology and Science (CloudCom) (pp. 50-57). IEEE.
+
+- Dragoni, N., Giallorenzo, S., Lafuente, A.L., Mazzara, M., Montesi, F., Mustafin, R. and Safina, L., 2016. **Microservices: yesterday, today, and tomorrow.** arXiv preprint arXiv:1606.04036.
+
+- Nordic APIs. 2016. **How To Control User Identity Within Microservices** | Nordic APIs |. [ONLINE] Available at: http://nordicapis.com/how-to-control-user-identity-within-microservices/. [Accessed 10 July 2016].
+
+- Speaker Deck. 2016. **Security for Microservices with Spring** // Speaker Deck. [ONLINE] Available at: https://speakerdeck.com/dsyer/security-for-microservices-with-spring. [Accessed 10 July 2016].
