@@ -23,13 +23,12 @@ A **Microservice Architecture** is a distributed application where all its modul
 
 
 
-
 ## Microservice Architecture
-The communication  is made by RESTful API or message broker services.
+microservice communication made by **RESTful API** or **message broker** services.
 
-Each microservices is completely autonomous and domain specific.
+Each microservice is **autonomous** and **domain specific**.
 
-The microservices can be deployed as a single machine, virtual machine, container or a process.
+The microservices can be deployed as a single machine, virtual machine, container or process.
 
 
 ### Advantages
@@ -41,7 +40,7 @@ The microservices can be deployed as a single machine, virtual machine, containe
 
 
 ### Introduced problems ( Disadvantages )
-- Increased Resource use
+- Increased resource use
 - Increase Network communication
 - Marshalling and Un-marshalling
 - Network Security
@@ -57,22 +56,47 @@ note:
 
 
 
-## Real-World Examples: [Hail](https://www.hailoapp.com)
+## Real-World Examples: [Hailo](https://www.hailoapp.com)
 ![hail-architecture](img/hail-small.png)
+
+
+## Real-World Examples: [Tyro](https://tyro.com)
+![tyro](img/tyro.png)
 
 
 
 ## Security issue
-- Authentication and Authorization
 - Greater Surface Attack Area
 - Heterogeneity
 - Network Complexity
+- Authentication and Authorization
 - Secure the communications
 - Trust
 
 
 
-### Authentication and Authorization
+## Greater Surface Attack Area
+In the microservice infrastructure all services expose independent API from the programming language.
+
+This services can in principle be access by the external
+
+
+
+## Heterogeneity
+The application can be made by a very large number of services that can also not be know in advance.
+
+No common security infrastructure, different Trusted Computing Base
+
+
+
+## Network Complexity
+The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
+
+Attackers could exploit this complexity to launch attacks against applications.
+
+
+
+## Authentication and Authorization
 ![monolithic_flow](img/monolithic_request_flow.png) ![img](img/microservices_incorrect_flow.png)
 
 Each micro-services have to ensure that the request is made by an authenticated client with the correct rights.
@@ -93,52 +117,32 @@ The most used technologies are:
 
 
 
-### Greater Surface Attack Area
-In the microservice infrastructure all services expose independent API from the programming language.
-
-This services can in principle be access by the external
-
-
-
-### Heterogeneity
-The application can be made by a very large number of services that can also not be know in advance.
-
-No common security infrastructure, different Trusted Computing Base
-
-
-
-### Network Complexity
-The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
-
-Attackers could exploit this complexity to launch attacks against applications.
-
-
-
-### Secure the communications
+## Secure the communications
 Are needed way to ensure that the communication between the services are secure.
 
 Adopted technology:
 - HTTPS
-- Client Certificates
 - HMAC Over HTTP
 
 
 
-### Trust
+## Trust
 We can't consider a microservice trustworthy.
 
-![tyro](img/tyro.png) <!-- .element: style="max-width: 500px;" -->
-
-Encrypt and certificate the communication is not enough, because a compromised service cant act against us.
+Encrypt and certificate the communication is not enough, because a compromised service can't act against us.
 
 
 ### Confused deputy problem
-The situation where a malicious party can trick a deputy service into making calls to a downstream service on his behalf
-that he shouldn’t be able to.
+When a malicious party can trick a deputy service into making calls to a downstream service on his behalf that he shouldn’t be able to.
 
 
-### Netflix vulnerability
-As a real world example, a subdomain of Netflix was compromised, and from that domain, adversary can serve any content in the context of netflix.com. In addition, since Netflix allowed all users’ cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
+### a Netflix vulnerability
+A subdomain of Netflix was compromise
+- an adversary can serve any content in the context of netflix.com.
+- it possible tamper with authenticated Netflix subscribers and their data.
+
+note:
+since Netflix allowed all users’ cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
 
 
 
@@ -147,21 +151,31 @@ In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" 
 
 
 
-### The DVD retail examples
+## The DVD retail examples
 ![dvd_rental](img/DVD_rental.png)
 
 ![dvd_rental-microservices](img/DVD_rental-microservices.png)
 
+note:
+- Step 1: customer sends a request to Contract-Update service to create a rental contract.
+- Step 2: Contract-Update invokes a method of User-Update to bill the customer’s account.
+- Step 3: Contract-Update places a RPC message containing the DVD info on the message queue. The message is consumed by DVD-Update.
+- Step 4: DVD-Update invokes Shipping to ship the DVD.
+- Step 5 and 6: When the customer returns the DVD, DVD-Return updates customer account and DVD repository.
 
 
-### One possible problems
+
+## One possible problems
 ![dvd_rental-microservices](img/DVD_rental-microservices.png)
 
-a compromised `Contract-Update` may send modified requests to `User-Update` to cause user account to be arbitrarily charged. A compromised `DVD-Update` service may consume and then delete messages on the queue without actually shipping out DVDs, causing a denial of service attack, and so on.
+note:
+A compromised `Contract-Update` may send modified requests to `User-Update` to cause user account to be arbitrarily charged.
+
+A compromised `DVD-Update` service may consume and then delete messages on the queue without actually shipping out DVDs, causing a denial of service attack, and so on.
 
 
 
-### Monitor the network
+## Monitor the network
 The solution have to have this characteristics:
 - Completeness
 - Tamper
@@ -176,7 +190,7 @@ note:
 
 
 
-### Design
+## Design
 Put the monitoring part outside the business logic.
 Create security VM that can analyses and monitoring the flow coming from the application VM.
 
@@ -187,7 +201,7 @@ this solution is tamper-prof because the attacker can't access the security VM u
 
 
 
-### FlowTap Primitive
+## FlowTap Primitive
 To avoid custom network configuration is possible to define a new primitive:
 ```
 FlowTap (SRC, DST, Flow_Syntax, Action)
@@ -198,9 +212,9 @@ FlowTap (SRC, DST, Flow_Syntax, Action)
 - **Flow_Syntax**, identifies a specific flow to tap  
 - **Action**, forwarding or redirect
 
-Flow_Syntax Example ( Monitor incoming HTTP requests ):
+Flow_Syntax Example (Monitor incoming HTTP requests):
 ```(python)
-nw_src = 0.0.0.0/0; nw_proto = TCP; tp_dst = 80 , redirect)
+nw_src = 0.0.0.0/0; nw_proto = TCP; tp_dst = 80
 ```
 
 note:
@@ -227,24 +241,28 @@ Datalog is a declarative logic programming language that syntactically is a subs
 
 
 ### Implementation
-FlowTap is implemented on OpenStack Icehouse release.
+FlowTap is implemented on **OpenStack Icehouse** release.
 
-By modifying the virtual routing devices on cloud nodes:
+By modifying the virtual routing devices:
+
 - the integration bridge (`br-int`) that connects to VMs
+
 - the tunneling bridge (`br-tun`) that tunnels the VM traffic across cloud nodes.
 
 
 ### How it works
-modified `br-int` such that when a packet of the target VM is submitted, it is processed through
-the following steps according to the FlowTap API:
-1. the flow is compared with the flow syntax;
-2. if it matches, it is duplicated (if the action is forwarding) or taken as it is (if the action is redirecting);
-3. its destination MAC address is rewritten to be the MAC of the security VM;
-4. it is resubmitted to either a local port on `br-int` if the security VM is on the same cloud node, or to the `br-tun` for tunneling.
+The modified `br-int` process each packet at the following:
+1. compare the flow with the flow syntax
+
+2. if it matches, it is duplicated or taken as it is
+
+3. its destination MAC address is rewritten to the security VM MAC
+
+4. it is resubmitted to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunneling.
 
 
 
-### Evalutation
+## Evalutation
 ![setup](img/setup.png)
 <small>
 
@@ -258,24 +276,37 @@ the following steps according to the FlowTap API:
 
 
 
-### Netflix Fido
-Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns.
+## Problem of this approach
+- generate a lot of additional traffic in the network
+- need an infrastructure implementation *(cloud provider have to adopt it)*
+- difficulties to deploy the security VM machine in the optimal nodes
 
-They, however, have two drawbacks:
-- the analysis often uses hooks within the VM or the application to monitor the APIs and other application behaviors. If an adversary successfully compromises a microservice and escalates the privileges to control the VM that hosts the service, it can easily subvert the security of this framework.
-- this approach usually lacks the visibility into the underlying infrastructure, thus may lack capability to respond to the conditions (e.g. they cannot redirect traffic by themselves and need some infrastructure support).
+
+
+## Other approaches
+- Infrastructure and/or platform-based security approaches, such as **VMware vCNS**, **NSX**.
+They implement their physical counterpart (like switches, firewalls and routers).
+
+- Application-based security software like **FIDO** by Netflix.
+They analyze API-level behaviors within cloud applications and detect anomalous patterns.
 
 note:
-Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns. They, however, have two drawbacks. First, the analysis often uses hooks within the VM or the application to monitor the APIs and other application behaviors. If an adversary successfully compromises a microservice and escalates the privileges to control the VM that hosts the service, it can easily subvert the security of this framework. Second, this approach usually lacks the visibility into the underlying infrastructure, thus may lack capability to respond to the conditions (e.g. they cannot redirect traffic by themselves and need some infrastructure support).
+Infrastructure and/or platform-based security approaches, such as VMware vCNS [18], NSX [19], etc., extend the hypervisor/platform to provide distributed, and sometimes inline, monitoring for the cloud applications.
+They mostly try to implement monitoring techniques inspired by their physical counterparts (e.g. SPAN and/or TAP ports) in distributed virtual switches [20], firewalls [21] and routers [22]. Our work introduces flexibility to these techniques with more fine grained and dynamic control, and augments microservice-specific context to address security issues that are important for this architecture.
+
+Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns.
+Possible problems:
+- the hooks are inside the virtual machine and that can be compressed
+- lacks of visibility in the underlying infrastructure
 
 
 
-### Conclusion
+## Conclusion
 The microservice architecture is a style that is increasingly gaining popularity both in academia and in the industrial world.
 
 Its not a totally new approach but actually a improvement of really know infrastructure as OO or SOA.
 
-It is needed, also in the security field, standardization and research to resolve the new problem that raise from this use.
+It is needed, also in the security field, standardization and research to resolve the new problem raised.
 
 
 
