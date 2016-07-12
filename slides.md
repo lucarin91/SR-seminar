@@ -6,29 +6,31 @@
 
 
 ## Agenda
-- introduce microservice and its characteristics
-- explain the main security problem
-- present a Security-as-a-Service approach for microservice
-- conclusion
+- Intro to microservices
+
+- Security problems in microservices
+
+- Security-as-a-Service approach for microservice
+
+- Conclusion
 
 
 
-## Same Definition
-A **Monolithic software application** is a software application
-composed of modules that are not independent from the application to which they belong.
+## Basic Definitions
+A **monolithic application** is a software composed of modules that are not independent from the application to which they belong.
 
-A **Microservice** is a minimal independent process interacting via messages.
+A **microservice** is a minimal independent process interacting via messages.
 
-A **Microservice Architecture** is a distributed application where all its modules are microservices.
+A **microservice architecture** is a distributed application where all its modules are microservices.
 
 
 
 ## Microservice Architecture
-microservice communication made by **RESTful API** or **message broker** services.
+Communication is performed by **RESTful API** or **message broker** services.
 
 Each microservice is **autonomous** and **domain specific**.
 
-The microservices can be deployed as a single machine, virtual machine, container or process.
+They can be deployed as a single machine, virtual machine, container or process.
 
 
 ### Advantages
@@ -43,7 +45,7 @@ The microservices can be deployed as a single machine, virtual machine, containe
 - Increased resource use
 - Increase Network communication
 - Marshalling and Un-marshalling
-- Network Security
+- Network and Security issue
 
 note:
 - **Increased Resource** use - Initial investment to run these applications are high because all the independently running components need their own runtime containers with more memory and CPU.
@@ -66,59 +68,56 @@ note:
 
 
 ## Security issue
-- Greater Surface Attack Area
+- Greater surface attack area
 - Heterogeneity
-- Network Complexity
-- Authentication and Authorization
+- Network complexity
+- Authentication and authorization
 - Secure the communications
 - Trust
 
 
 
 ## Greater Surface Attack Area
-In the microservice infrastructure all services expose independent API from the programming language.
+In the microservice infrastructure all services expose API that are intependent from the programming language.
 
-This services can in principle be access by the external
+These services can in principle be accessed by the external.
 
 
 
 ## Heterogeneity
-The application can be made by a very large number of services that can also not be know in advance.
+The application can be made out of a very large number of services that can also be unknown in advance.
 
-No common security infrastructure, different Trusted Computing Base
+No common security infrastructure, different Trusted Computing Base.
 
 
 
 ## Network Complexity
 The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
 
-Attackers could exploit this complexity to launch attacks against applications.
+Attackers could exploit this complexity to attempt attacks against applications.
 
 
 
 ## Authentication and Authorization
 ![monolithic_flow](img/monolithic_request_flow.png) ![img](img/microservices_incorrect_flow.png)
 
-Each micro-services have to ensure that the request is made by an authenticated client with the correct rights.
+Each micro-service has to ensure that the request cames from an authenticated client with the correct rights.
 
-To avoid repeated work the it can be used SSO Gateway that is the only one that communicate with the identity service.
-
-note:
-see: https://speakerdeck.com/dsyer/security-for-microservices-with-spring
+To avoid repeated work an SSO Gateway can be used, to login and check users authorization.
 
 
 ### More in detail
-There is not an actual standard, but the main idea is to use a token system
+There is not an actual standard, but the main idea is to use a token system.
 
 The most used technologies are:
-- JWT, a token system
-- OpenID, decentralized authentication protocol
-- OAuth, a delegation protocol
+- JWT, a token system.
+- OpenID, decentralized authentication protocol.
+- OAuth, a delegation protocol.
 
 
 
 ## Secure the communications
-Are needed way to ensure that the communication between the services are secure.
+The communication between the services should be secure.
 
 Adopted technology:
 - HTTPS
@@ -127,31 +126,31 @@ Adopted technology:
 
 
 ## Trust
-We can't consider a microservice trustworthy.
+We can't assume that a microservice trustworthy.
 
-Encrypt and certificate the communication is not enough, because a compromised service can't act against us.
+Encrypt and certificate the communication is not enough, so that a compromised service can't act against us.
 
 
 ### Confused deputy problem
-When a malicious party can trick a deputy service into making calls to a downstream service on his behalf that he shouldn’t be able to.
+When a malicious party can trick a deputy service into making calls to a downstream service on his behalf that he shouldn't be able to.
 
 
 ### a Netflix vulnerability
-A subdomain of Netflix was compromise
-- an adversary can serve any content in the context of netflix.com.
-- it possible tamper with authenticated Netflix subscribers and their data.
+A subdomain of Netflix was compromised so taht an adversary:
+- can serve any content in the context of netflix.com.
+- was able to tamper with authenticated Netflix subscribers and their data.
 
 note:
-since Netflix allowed all users’ cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
+since Netflix allowed all users cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
 
 
 
 ## Security-as-a-Service
-In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyses microservice requests to ensure same communication policy.
+In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyse microservice requests to ensure some communication policy.
 
 
 
-## The DVD retail examples
+## The DVD retail example
 ![dvd_rental](img/DVD_rental.png)
 
 ![dvd_rental-microservices](img/DVD_rental-microservices.png)
@@ -165,7 +164,7 @@ note:
 
 
 
-## One possible problems
+## One possible problem
 ![dvd_rental-microservices](img/DVD_rental-microservices.png)
 
 note:
@@ -176,9 +175,9 @@ A compromised `DVD-Update` service may consume and then delete messages on the q
 
 
 ## Monitor the network
-The solution have to have this characteristics:
+The solution must have these characteristics:
 - Completeness
-- Tamper
+- Tamper proof
 - Flexibility
 - Efficiency
 
@@ -192,9 +191,10 @@ note:
 
 ## Design
 Put the monitoring part outside the business logic.
-Create security VM that can analyses and monitoring the flow coming from the application VM.
 
-All the network event of the services can be redirect by the SDN of the cloud infrastructure.
+Create a security VM that can analyse and monitor the flow coming from the application VM.
+
+All the network event of the application VM can be redirected by the SDN of the cloud infrastructure.
 
 note:
 this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
@@ -202,7 +202,7 @@ this solution is tamper-prof because the attacker can't access the security VM u
 
 
 ## FlowTap Primitive
-To avoid custom network configuration is possible to define a new primitive:
+To avoid custom network configuration it is possible to define a new primitive:
 ```
 FlowTap (SRC, DST, Flow_Syntax, Action)
 ```
@@ -232,33 +232,33 @@ nd_sll, nd_tll, tun_id, tun_src, tun_dst, reg
 
 
 ### ftc compiler
-A tool to translate the policy written in Dalog to a set of FlowTap call.
+A tool to translate the policies written in Datalog to a set of FlowTap call.
 
-It can also dynamically compile the same policy into different set of FlowTap calls that maximize the efficiency of the system, base on CPU usage and network load.
+It can also dynamically compile the same policy into different set of FlowTap calls that maximise the efficiency of the system, based on CPU usage and network load.
 
 note:
 Datalog is a declarative logic programming language that syntactically is a subset of Prolog. It is often used as a query language for deductive databases. In recent years, Datalog has found new application in data integration, information extraction, networking, program analysis, security, and cloud computing.
 
 
 ### Implementation
-FlowTap is implemented on **OpenStack Icehouse** release.
+FlowTap is implemented on the **OpenStack Icehouse** release.
 
 By modifying the virtual routing devices:
 
-- the integration bridge (`br-int`) that connects to VMs
+- The integration bridge (`br-int`) that connects to VMs
 
-- the tunneling bridge (`br-tun`) that tunnels the VM traffic across cloud nodes.
+- The tunneling bridge (`br-tun`) that tunnels the VM traffic across cloud nodes.
 
 
 ### How it works
 The modified `br-int` process each packet at the following:
-1. compare the flow with the flow syntax
+1. Compare the flow with the flow syntax
 
-2. if it matches, it is duplicated or taken as it is
+2. If it matches, it is duplicated or taken as it is
 
-3. its destination MAC address is rewritten to the security VM MAC
+3. Its destination MAC address is rewritten to the security VM MAC
 
-4. it is resubmitted to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunneling.
+4. It is resubmitted to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunneling.
 
 
 
@@ -266,20 +266,20 @@ The modified `br-int` process each packet at the following:
 ![setup](img/setup.png)
 <small>
 
-| Scenario        |  (a) |  (b) |  (c)  |  (d)  |
-|:----------------|:----:|:----:|:-----:|:-----:|
-| Baseline (mbps) | 2600 | 2600 | 12000 | 12000 |
-| FlowTap (mbps)  | 2100 | 2600 | 5100  | 9100  |
-| Throughput loss | 19%  | 0%   | 57%   | 24%   |
+| Scenario             |  (a) |  (b) |  (c)  |  (d)  |
+|:---------------------|:----:|:----:|:-----:|:-----:|
+| Baseline (mbps)      | 2600 | 2600 | 12000 | 12000 |
+| FlowTap (mbps)       | 2100 | 2600 | 5100  | 9100  |
+| Throughput reduction | 19%  | 0%   | 57%   | 24%   |
 
 </small>
 
 
 
-## Problem of this approach
-- generate a lot of additional traffic in the network
-- need an infrastructure implementation *(cloud provider have to adopt it)*
-- difficulties to deploy the security VM machine in the optimal nodes
+## Problems of this approach
+- Generates a lot of additional traffic in the network.
+- Need an infrastructure implementation *(cloud providers have to adopt it)*.
+- difficulties to deploy the security VM machine in the optimal nodes.
 
 
 
@@ -304,9 +304,9 @@ Possible problems:
 ## Conclusion
 The microservice architecture is a style that is increasingly gaining popularity both in academia and in the industrial world.
 
-Its not a totally new approach but actually a improvement of really know infrastructure as OO or SOA.
+Its not a totally new approach but actually an improvement of the well known OO and SOA.
 
-It is needed, also in the security field, standardization and research to resolve the new problem raised.
+Standardization and research should work to create a more robust infrastructure to build secure and scalable microservices.
 
 
 
