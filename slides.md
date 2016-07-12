@@ -1,4 +1,4 @@
-## Security in the Micro-Services Architecture
+## Security in the Microservices Architecture
 #### SR - Seminar
 
 <small>Created by <a href="http://lucar.in">Luca Rinaldi</a></small>
