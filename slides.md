@@ -177,7 +177,7 @@ A compromised `DVD-Update` service may consume and then delete messages on the q
 ## Monitor the network
 The solution must have these characteristics:
 - Completeness
-- Tamper proof
+- Tamper resistance
 - Flexibility
 - Efficiency
 
@@ -278,7 +278,9 @@ The modified `br-int` process each packet at the following:
 
 ## Problems of this approach
 - Generates a lot of additional traffic in the network.
+
 - Need an infrastructure implementation *(cloud providers have to adopt it)*.
+
 - difficulties to deploy the security VM machine in the optimal nodes.
 
 
