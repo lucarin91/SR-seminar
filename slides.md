@@ -41,29 +41,9 @@ They can be deployed as a single machine, virtual machine, container or process.
 - Ease of Deployment
 
 
-### Introduced problems ( Disadvantages )
-- Increased resource use
-- Increase Network communication
-- Marshalling and Un-marshalling
-- Network and Security issue
-
-note:
-- **Increased Resource** use - Initial investment to run these applications are high because all the independently running components need their own runtime containers with more memory and CPU.
-
-- **Increase Network communication** - Independently running components interact with each other over a network. Such systems require reliable and fast network connections.
-
-- **Marshalling and Un-marshalling** - When one component needs data from another component, the sender marshals the data in some standard from its internal representation, while the receiver un-marshalls data into its own representation before use. This definitely requires more processing compared to conventional application architecture.
-
-- **Network Security** - Inter Service Communication needs to be secured to avoid any inter communication security breach. Due to several moving parts, these applications are more prone to security vulnerabilities.
-
-
 
 ## Real-World Examples: [Hailo](https://www.hailoapp.com)
 ![hail-architecture](img/hail-small.png)
-
-
-## Real-World Examples: [Tyro](https://tyro.com)
-![tyro](img/tyro.png)
 
 
 
@@ -78,36 +58,36 @@ note:
 
 
 ## Greater Surface Attack Area
-In the microservice infrastructure all services expose API that are intependent from the programming language.
+In the microservice infrastructure all services expose API that are independent from the programming language.
 
-These services can in principle be accessed by the external.
+These services can in principle be **accessed by the external**.
 
 
 
 ## Heterogeneity
-The application can be made out of a very large number of services that can also be unknown in advance.
+The application can be made out of a very **large number of services** that can also be unknown in advance.
 
-No common security infrastructure, different Trusted Computing Base.
+No common security infrastructure, different *Trusted Computing Base*.
 
 
 
 ## Network Complexity
 The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
 
-Attackers could exploit this complexity to attempt attacks against applications.
+Attackers could **exploit this complexity** to attempt attacks against applications.
 
 
 
 ## Authentication and Authorization
 ![monolithic_flow](img/monolithic_request_flow.png) ![img](img/microservices_incorrect_flow.png)
 
-Each micro-service has to ensure that the request cames from an authenticated client with the correct rights.
+Each micro-service has to ensure that the request comes from an authenticated client with the correct rights.
 
-To avoid repeated work an SSO Gateway can be used, to login and check users authorization.
+To avoid repeated work an **SSO Gateway** can be used, to login and check users authorization.
 
 
 ### More in detail
-There is not an actual standard, but the main idea is to use a token system.
+There is not an actual standard, but the main idea is to use a **token system**.
 
 The most used technologies are:
 - JWT, a token system.
@@ -117,7 +97,7 @@ The most used technologies are:
 
 
 ## Secure the communications
-The communication between the services should be secure.
+The communication between the services should be **secure**.
 
 Adopted technology:
 - HTTPS
@@ -136,7 +116,7 @@ When a malicious party can trick a deputy service into making calls to a downstr
 
 
 ### a Netflix vulnerability
-A subdomain of Netflix was compromised so taht an adversary:
+A subdomain of Netflix was **compromised** so that an adversary:
 - can serve any content in the context of netflix.com.
 - was able to tamper with authenticated Netflix subscribers and their data.
 
@@ -146,31 +126,7 @@ since Netflix allowed all users cookies to be accessed from any subdomain, an ad
 
 
 ## Security-as-a-Service
-In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyse microservice requests to ensure some communication policy.
-
-
-
-## The DVD retail example
-![dvd_rental](img/DVD_rental.png)
-
-![dvd_rental-microservices](img/DVD_rental-microservices.png)
-
-note:
-- Step 1: customer sends a request to Contract-Update service to create a rental contract.
-- Step 2: Contract-Update invokes a method of User-Update to bill the customer’s account.
-- Step 3: Contract-Update places a RPC message containing the DVD info on the message queue. The message is consumed by DVD-Update.
-- Step 4: DVD-Update invokes Shipping to ship the DVD.
-- Step 5 and 6: When the customer returns the DVD, DVD-Return updates customer account and DVD repository.
-
-
-
-## One possible problem
-![dvd_rental-microservices](img/DVD_rental-microservices.png)
-
-note:
-A compromised `Contract-Update` may send modified requests to `User-Update` to cause user account to be arbitrarily charged.
-
-A compromised `DVD-Update` service may consume and then delete messages on the queue without actually shipping out DVDs, causing a denial of service attack, and so on.
+In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyse microservice requests to ensure some **communication policy**.
 
 
 
@@ -192,9 +148,9 @@ note:
 ## Design
 Put the monitoring part outside the business logic.
 
-Create a security VM that can analyse and monitor the flow coming from the application VM.
+Create a **security VM** that can analyse and monitor the flow coming from the application VM.
 
-All the network event of the application VM can be redirected by the SDN of the cloud infrastructure.
+All the network event of the application VM can be **redirected** by the SDN of the cloud infrastructure.
 
 note:
 this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
@@ -234,13 +190,14 @@ nd_sll, nd_tll, tun_id, tun_src, tun_dst, reg
 ### ftc compiler
 A tool to translate the policies written in Datalog to a set of FlowTap call.
 
-It can also dynamically compile the same policy into different set of FlowTap calls that maximise the efficiency of the system, based on CPU usage and network load.
+It can also dynamically compile the same policy into different set of FlowTap calls that **maximise the efficiency** of the system, based on CPU usage and network load.
 
 note:
 Datalog is a declarative logic programming language that syntactically is a subset of Prolog. It is often used as a query language for deductive databases. In recent years, Datalog has found new application in data integration, information extraction, networking, program analysis, security, and cloud computing.
 
 
-### Implementation
+
+## Implementation
 FlowTap is implemented on the **OpenStack Icehouse** release.
 
 By modifying the virtual routing devices:
@@ -285,28 +242,8 @@ The modified `br-int` process each packet at the following:
 
 
 
-## Other approaches
-- Infrastructure and/or platform-based security approaches, such as **VMware vCNS**, **NSX**.
-They implement their physical counterpart (like switches, firewalls and routers).
-
-- Application-based security software like **FIDO** by Netflix.
-They analyze API-level behaviors within cloud applications and detect anomalous patterns.
-
-note:
-Infrastructure and/or platform-based security approaches, such as VMware vCNS [18], NSX [19], etc., extend the hypervisor/platform to provide distributed, and sometimes inline, monitoring for the cloud applications.
-They mostly try to implement monitoring techniques inspired by their physical counterparts (e.g. SPAN and/or TAP ports) in distributed virtual switches [20], firewalls [21] and routers [22]. Our work introduces flexibility to these techniques with more fine grained and dynamic control, and augments microservice-specific context to address security issues that are important for this architecture.
-
-Application-based security approaches, such as in Netflix Fido analyze API-level behaviors within cloud applications to build application profiles and then use the profiles to detect anomalous patterns.
-Possible problems:
-- the hooks are inside the virtual machine and that can be compressed
-- lacks of visibility in the underlying infrastructure
-
-
-
 ## Conclusion
 The microservice architecture is a style that is increasingly gaining popularity both in academia and in the industrial world.
-
-Its not a totally new approach but actually an improvement of the well known OO and SOA.
 
 Standardization and research should work to create a more robust infrastructure to build secure and scalable microservices.
 
