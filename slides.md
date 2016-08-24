@@ -1,4 +1,4 @@
-## Security in the Microservices Architecture
+## Security in the Microservice Architecture
 #### SR - Seminar
 
 <small>Created by <a href="http://lucar.in">Luca Rinaldi</a></small>
@@ -6,11 +6,11 @@
 
 
 ## Agenda
-- Intro to microservices
+- Introduction to microservices
 
 - Security problems in microservices
 
-- Security-as-a-Service approach for microservice
+- Security-as-a-Service approach for microservices
 
 - Conclusion
 
@@ -150,7 +150,7 @@ Put the monitoring part outside the business logic.
 
 Create a **security VM** that can analyse and monitor the flow coming from the application VM.
 
-All the network event of the application VM can be **redirected** by the SDN of the cloud infrastructure.
+All the network events of the application VM can be **redirected** by the SDN of the cloud infrastructure.
 
 note:
 this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
@@ -190,7 +190,7 @@ nd_sll, nd_tll, tun_id, tun_src, tun_dst, reg
 ### ftc compiler
 A tool to translate the policies written in Datalog to a set of FlowTap call.
 
-It can also dynamically compile the same policy into different set of FlowTap calls that **maximise the efficiency** of the system, based on CPU usage and network load.
+It can dynamically compile the policies into different set of FlowTap calls to **maximise the efficiency** of the system based on CPU usage and network load.
 
 note:
 Datalog is a declarative logic programming language that syntactically is a subset of Prolog. It is often used as a query language for deductive databases. In recent years, Datalog has found new application in data integration, information extraction, networking, program analysis, security, and cloud computing.
@@ -200,7 +200,7 @@ Datalog is a declarative logic programming language that syntactically is a subs
 ## Implementation
 FlowTap is implemented on the **OpenStack Icehouse** release.
 
-By modifying the virtual routing devices:
+The following component are been modified:
 
 - The integration bridge (`br-int`) that connects to VMs
 
@@ -208,18 +208,19 @@ By modifying the virtual routing devices:
 
 
 ### How it works
-The modified `br-int` process each packet at the following:
+The modified `br-int` process each packet in the following way:
+
 1. Compare the flow with the flow syntax
 
 2. If it matches, it is duplicated or taken as it is
 
-3. Its destination MAC address is rewritten to the security VM MAC
+3. Change the original MAC address with the security VM one
 
-4. It is resubmitted to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunneling.
+4. resubmit to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunnelling.
 
 
 
-## Evalutation
+## Evaluation
 ![setup](img/setup.png)
 <small>
 
@@ -234,11 +235,15 @@ The modified `br-int` process each packet at the following:
 
 
 ## Problems of this approach
-- Generates a lot of additional traffic in the network.
+- Generates a lot of additional network traffic.
 
 - Need an infrastructure implementation *(cloud providers have to adopt it)*.
 
-- difficulties to deploy the security VM machine in the optimal nodes.
+- Difficulties to deploy the security VM machine in the optimal nodes.
+
+- Can not tap a specific flow at the application layer *(reduce check performance)*.
+
+- The management of the security VMs can become really complex.
 
 
 
