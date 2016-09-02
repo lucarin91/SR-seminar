@@ -1,7 +1,7 @@
 ## Security in the Microservice Architecture
 #### SR - Seminar
 
-<small>Created by <a href="http://lucar.in">Luca Rinaldi</a></small>
+<small><a href="http://lucar.in">Luca Rinaldi</a></small>
 
 
 
@@ -12,33 +12,33 @@
 
 - Security-as-a-Service approach for microservices
 
-- Conclusion
+- Conclusions
 
 
 
 ## Basic Definitions
-A **monolithic application** is a software composed of modules that are not independent from the application to which they belong.
+A **monolithic architecture ** is a software composed of modules that are not independent from the application to which they belong.
 
-A **microservice** is a minimal independent process interacting via messages.
+A **microservice** is a minimal independent process interacting with others via messages.
 
-A **microservice architecture** is a distributed application where all its modules are microservices.
+A **microservice architecture** is a distributed application where all modules are microservices.
 
 
 
 ## Microservice Architecture
-Communication is performed by **RESTful API** or **message broker** services.
+Communication is performed through **RESTful API** or **message brokering** services.
 
 Each microservice is **autonomous** and **domain specific**.
 
-They can be deployed as a single machine, virtual machine, container or process.
+They can be deployed on a single server, virtual machine, container or process.
 
 
 ### Advantages
 - Composability
-- Scaling
+- Scalability
 - Resilience
-- Technology Heterogeneity
-- Ease of Deployment
+- Technology agnostic
+- Ease of deployment
 
 
 
@@ -72,7 +72,7 @@ No common security infrastructure, different *Trusted Computing Base*.
 
 
 ## Network Complexity
-The architecture bring difficulty in debugging, monitoring, auditing, and forensic analysis of the entire application.
+The architecture bring difficulties in debugging, monitoring, auditing, and forensic analysis of the entire application.
 
 Attackers could **exploit this complexity** to attempt attacks against applications.
 
@@ -86,12 +86,12 @@ Each micro-service has to ensure that the request comes from an authenticated cl
 To avoid repeated work an **SSO Gateway** can be used, to login and check users authorization.
 
 
-### More in detail
-There is not an actual standard, but the main idea is to use a **token system**.
+### Details
+There is no actual standard, but the main idea is to use a **token system**.
 
 The most used technologies are:
 - JWT, a token system.
-- OpenID, decentralized authentication protocol.
+- OpenID, decentralised authentication protocol.
 - OAuth, a delegation protocol.
 
 
@@ -106,7 +106,7 @@ Adopted technology:
 
 
 ## Trust
-We can't assume that a microservice trustworthy.
+We can't assume a microservice trustworthy.
 
 Encrypt and certificate the communication is not enough, so that a compromised service can't act against us.
 
