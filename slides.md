@@ -17,7 +17,7 @@
 
 
 ## Basic Definitions
-A **monolithic architecture ** is a software composed of modules that are not independent from the application to which they belong.
+A **monolithic application** is a software composed of modules that are not independent from the application to which they belong.
 
 A **microservice** is a minimal independent process interacting with others via messages.
 
@@ -118,7 +118,7 @@ When a malicious party can trick a deputy service into making calls to a downstr
 ### a Netflix vulnerability
 A subdomain of Netflix was **compromised** so that an adversary:
 - can serve any content in the context of netflix.com.
-- was able to tamper with authenticated Netflix subscribers and their data.
+- was able to tamper authenticated Netflix subscribers and their data.
 
 note:
 since Netflix allowed all users cookies to be accessed from any subdomain, an adversary controlling a subdomain was able to tamper with authenticated Netflix subscribers and their data.
@@ -126,7 +126,7 @@ since Netflix allowed all users cookies to be accessed from any subdomain, an ad
 
 
 ## Security-as-a-Service
-In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" is proposed a solution to monitor and analyse microservice requests to ensure some **communication policy**.
+In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" a solution is proposed  to monitor and analyse microservice requests to ensure some **communication policy**.
 
 
 
@@ -190,7 +190,7 @@ nd_sll, nd_tll, tun_id, tun_src, tun_dst, reg
 ### ftc compiler
 A tool to translate the policies written in Datalog to a set of FlowTap call.
 
-It can dynamically compile the policies into different set of FlowTap calls to **maximise the efficiency** of the system based on CPU usage and network load.
+It can dynamically compile the policies into different sets of FlowTap calls to **maximise the efficiency** of the system based on CPU usage and network loads.
 
 note:
 Datalog is a declarative logic programming language that syntactically is a subset of Prolog. It is often used as a query language for deductive databases. In recent years, Datalog has found new application in data integration, information extraction, networking, program analysis, security, and cloud computing.
@@ -200,7 +200,7 @@ Datalog is a declarative logic programming language that syntactically is a subs
 ## Implementation
 FlowTap is implemented on the **OpenStack Icehouse** release.
 
-The following component are been modified:
+The following component have been modified:
 
 - The integration bridge (`br-int`) that connects to VMs
 
@@ -208,15 +208,15 @@ The following component are been modified:
 
 
 ### How it works
-The modified `br-int` process each packet in the following way:
+The modified `br-int` processes each packet in the following way:
 
-1. Compare the flow with the flow syntax
+1. It compares the flow with the flow syntax
 
-2. If it matches, it is duplicated or taken as it is
+2. If it matches, the flow is duplicated or taken as is
 
 3. Change the original MAC address with the security VM one
 
-4. resubmit to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunnelling.
+4. re-submit to the `br-int` if the security VM is on the same node, or to the `br-tun` for tunnelling.
 
 
 
@@ -226,8 +226,8 @@ The modified `br-int` process each packet in the following way:
 
 | Scenario             |  (a) |  (b) |  (c)  |  (d)  |
 |:---------------------|:----:|:----:|:-----:|:-----:|
-| Baseline (mbps)      | 2600 | 2600 | 12000 | 12000 |
-| FlowTap (mbps)       | 2100 | 2600 | 5100  | 9100  |
+| Baseline (Mbps)      | 2600 | 2600 | 12000 | 12000 |
+| FlowTap (Mbps)       | 2100 | 2600 | 5100  | 9100  |
 | Throughput reduction | 19%  | 0%   | 57%   | 24%   |
 
 </small>
@@ -235,15 +235,15 @@ The modified `br-int` process each packet in the following way:
 
 
 ## Problems of this approach
-- Generates a lot of additional network traffic.
+- It generates a lot of additional network traffic and work.
 
-- Need an infrastructure implementation *(cloud providers have to adopt it)*.
+- It needs an infrastructure implementation *(cloud providers have to adopt it)*.
 
 - Difficulties to deploy the security VM machine in the optimal nodes.
 
-- Can not tap a specific flow at the application layer *(reduce check performance)*.
+- It cannot tap a specific flow at the Application layer *(reduce check performance)*.
 
-- The management of the security VMs can become really complex.
+- The management of the security VMs can becomes more complex.
 
 
 
