@@ -17,7 +17,7 @@
 
 
 ## Basic Definitions
-A **monolithic applicationdea** is a software composed of modules that are not independent from the application to which they belong.
+A **monolithic application** is a software composed of modules that are not independent from the application to which they belong.
 
 A **microservice** is a minimal independent process interacting with others via messages.
 
@@ -50,12 +50,12 @@ Hailo is a British technology platform that matches taxi drivers and passengers 
 
 
 
-## Security issue
+## Security issues
 - Greater surface attack area
 - Heterogeneity
 - Network complexity
 - Authentication and authorization
-- Secure the communications
+- Communication security
 - Trust
 
 
@@ -99,7 +99,7 @@ The most used technologies are:
 
 
 
-## Secure the communications
+## Communication security
 The communication between the services should be **secure**.
 
 Adopted technology:
@@ -133,6 +133,18 @@ In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" 
 
 
 
+## Design
+Put the monitoring part outside the business logic.
+
+Create a **security VM** that can analyse and monitor the flow coming from the application VM.
+
+All the network events of the application VM can be **redirected** by the SDN of the cloud infrastructure.
+
+note:
+this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
+
+
+
 ## Monitor the network
 The solution must have these characteristics:
 - Completeness
@@ -145,18 +157,6 @@ note:
 - Tamper resistance: the solution should work even if individual application VMs are under adversary’s control.
 - Flexibility: the solution should allow applications to specify their own policies over the kind of network events they want to monitor and enforce policies on.
 - Efficiency: the solution should have minimal impact on network and CPU resources consumed.
-
-
-
-## Design
-Put the monitoring part outside the business logic.
-
-Create a **security VM** that can analyse and monitor the flow coming from the application VM.
-
-All the network events of the application VM can be **redirected** by the SDN of the cloud infrastructure.
-
-note:
-this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
 
 
 
