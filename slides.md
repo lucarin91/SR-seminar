@@ -17,7 +17,7 @@
 
 
 ## Basic Definitions
-A **monolithic application** is a software composed of modules that are not independent from the application to which they belong.
+A **monolithic applicationdea** is a software composed of modules that are not independent from the application to which they belong.
 
 A **microservice** is a minimal independent process interacting with others via messages.
 
@@ -44,6 +44,9 @@ They can be deployed on a single server, virtual machine, container or process.
 
 ## Real-World Examples: [Hailo](https://www.hailoapp.com)
 ![hail-architecture](img/hail-small.png)
+
+note:
+Hailo is a British technology platform that matches taxi drivers and passengers through its mobile phone application.
 
 
 
