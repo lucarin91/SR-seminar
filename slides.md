@@ -133,18 +133,6 @@ In the paper "Security-as-a-Service for Microservices-Based Cloud Applications" 
 
 
 
-## Design
-Put the monitoring part outside the business logic.
-
-Create a **security VM** that can analyse and monitor the flow coming from the application VM.
-
-All the network events of the application VM can be **redirected** by the SDN of the cloud infrastructure.
-
-note:
-this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
-
-
-
 ## Monitor the network
 The solution must have these characteristics:
 - Completeness
@@ -157,6 +145,18 @@ note:
 - Tamper resistance: the solution should work even if individual application VMs are under adversary’s control.
 - Flexibility: the solution should allow applications to specify their own policies over the kind of network events they want to monitor and enforce policies on.
 - Efficiency: the solution should have minimal impact on network and CPU resources consumed.
+
+
+
+## Design
+Put the monitoring part outside the business logic.
+
+Create a **security VM** that can analyse and monitor the flow coming from the application VM.
+
+All the network events of the application VM can be **redirected** by the SDN of the cloud infrastructure.
+
+note:
+this solution is tamper-prof because the attacker can't access the security VM unless there is same vulnerability in the VM hypervisor.
 
 
 
